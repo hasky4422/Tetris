@@ -1,0 +1,26 @@
+name: .NET 4.6
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: windows-latest
+    
+    env:
+      Actions_Allow_Unsecure_Commands: true # Allows AddPAth and SetEnv commands
+
+    steps:
+    - uses: actions/checkout@master
+    - uses: nuget/setup-nuget@v1
+    - name: Run a one-line script
+      run:  echo "clonning!"
+
+    - name: Setup MSBuild.exe
+      uses: warrenbuckley/Setup-MSBuild@v1
+
+    - name: update-packages
+      run: nuget restore Gadz.Tetris.sln
+
+    - name: MSBuild
+      run: msbuild Gadz.Tetris.sln
